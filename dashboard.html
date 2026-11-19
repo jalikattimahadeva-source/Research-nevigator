@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#061632" />
+  <title>Research Navigator | Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e2c62'/%3E%3Cpath d='M12 17c8-4 14-2 20 2v31c-6-4-12-6-20-2zM52 17c-8-4-14-2-20 2v31c6-4 12-6 20-2z' fill='%236ee7ff' stroke='%23dffaff' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "DM Sans", "Segoe UI", sans-serif;
+      color: #eef5ff;
+      background: #04132d;
+      font-synthesis: none;
+      --muted: #9cb4d5;
+      --cyan: #2edfff;
+      --line: rgba(129, 177, 235, .14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 42% 52%, rgba(12, 72, 152, .18), transparent 49%),
+        radial-gradient(ellipse at 4% 100%, rgba(16, 86, 220, .22), transparent 30%),
+        #04132d;
+    }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #53dcff;
+      outline-offset: 3px;
+    }
+    .topbar {
+      height: 88px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 30px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(3, 17, 43, .84);
+      position: relative;
+      z-index: 3;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 360px;
+      flex: 0 0 360px;
+      color: inherit;
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      font-size: 34px;
+      border-radius: 17px;
+      color: #9be9ff;
+      background: radial-gradient(circle at 50% 70%, #1371ea 0, #082758 58%, transparent 72%);
+      filter: drop-shadow(0 0 13px rgba(0, 174, 255, .4));
+    }
+    .brand-name { display: block; font-size: 23px; font-weight: 800; letter-spacing: -.7px; }
+    .brand-tagline { display: block; margin-top: 3px; color: #62b9ff; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; }
+    .top-search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 50px;
+      max-width: 510px;
+      min-width: 190px;
+      flex: 1 1 320px;
+      padding: 0 14px 0 18px;
+      border: 1px solid rgba(151, 190, 245, .12);
+      border-radius: 18px;
+      color: #8eb6e6;
+      background: rgba(45, 80, 135, .48);
+    }
+    .top-search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: #edf6ff;
+      background: transparent;
+      font-size: 13px;
+    }
+    .top-search input::placeholder { color: #adc2de; }
+    .shortcut {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 8px;
+      color: #d3e4ff;
+      background: rgba(225, 238, 255, .13);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; margin-left: auto; }
+    .top-nav a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 12px 0;
+      color: #d6e4f8;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .top-nav a:hover, .top-nav a.active { color: #fff; }
+    .top-nav a.active::after {
+      position: absolute;
+      right: 0;
+      bottom: 1px;
+      left: 0;
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #00d9ff, #267aff);
+      content: "";
+    }
+    .nav-icon { color: #68caff; font-size: 15px; }
+    .profile {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      border: 2px solid rgba(104, 221, 255, .35);
+      border-radius: 50%;
+      color: white;
+      background: linear-gradient(145deg, #33d8ff, #874cff 72%);
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      gap: 24px;
+      max-width: 1720px;
+      min-height: calc(100vh - 88px);
+      margin: 0 auto;
+      padding: 16px 18px 22px;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 23px;
+      padding: 14px 8px 8px 0;
+    }
+    .side-link {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 43px;
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: 15px;
+      color: #d9e7fa;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background .2s, color .2s, transform .2s;
+    }
+    .side-link:hover { color: #fff; background: rgba(66, 117, 192, .2); transform: translateX(2px); }
+    .side-link.selected {
+      color: #fff;
+      background: linear-gradient(105deg, #0879ed, #3375ed 76%, #4280f1);
+      box-shadow: 0 9px 24px rgba(20, 98, 238, .21);
+    }
+    .side-icon { width: 20px; color: #66bfff; font-size: 19px; text-align: center; }
+    .selected .side-icon { color: #c9f5ff; }
+    .side-group { display: grid; gap: 5px; }
+    .side-label {
+      margin: 0 0 5px 6px;
+      color: #62b9ef;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .75px;
+    }
+    .side-quote {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 74px;
+      margin-top: auto;
+      padding: 12px 15px;
+      border: 1px solid rgba(76, 158, 255, .3);
+      border-radius: 15px;
+      color: #b7dcff;
+      background: linear-gradient(120deg, rgba(14, 54, 108, .9), rgba(7, 33, 75, .72));
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .side-quote .bulb { color: #9dd5ff; font-size: 25px; }
+    .side-quote .arrow { margin-left: auto; color: #20bafa; font-size: 17px; }
+    .content {
+      display: block;
+      min-width: 0;
+    }
+    .home-view {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 344px;
+      align-items: start;
+      gap: 16px;
+    }
+    .site-view { display: none; min-width: 0; }
+    .site-view.active { display: block; }
+    .home-view.active { display: grid; }
+    .search-view {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 8px;
+    }
+    .search-view h1 { margin: 16px 0 9px; font-size: clamp(32px, 5vw, 48px); }
+    .search-view .search-intro { margin: 0 0 23px; color: #b7cbe4; line-height: 1.65; }
+    .search-panel {
+      padding: clamp(18px, 4vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(130deg, rgba(9, 31, 70, .97), rgba(6, 24, 55, .97));
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .2);
+    }
+    .search-panel form { display: flex; gap: 12px; }
+    .search-panel #advancedSearchForm { display: block; }
+    .search-panel input, .search-panel select {
+      width: 100%;
+      min-width: 0;
+      height: 50px;
+      padding: 0 14px;
+      border: 1px solid rgba(146, 184, 232, .24);
+      border-radius: 12px;
+      color: #fff;
+      background: rgba(0, 10, 31, .56);
+    }
+    .search-panel input::placeholder { color: #90a9c9; }
+    .search-panel select option { color: #10203a; }
+    .search-panel .primary-action {
+      min-height: 50px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(100deg, #05c6ed, #4266fa 68%, #a449ea);
+      cursor: pointer;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .search-panel .search-hint { margin: 12px 2px 0; color: var(--muted); font-size: 12px; }
+    .search-panel .search-section-title { margin: 26px 0 12px; font-size: 15px; }
+    .advanced-actions { display: flex; align-items: center; gap: 18px; margin-top: 22px; }
+    .advanced-actions .back-home { margin: 0; border: 0; background: transparent; cursor: pointer; }
+    .search-chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .search-chips button {
+      padding: 9px 14px;
+      border: 1px solid rgba(105, 151, 226, .18);
+      border-radius: 24px;
+      color: #dceaff;
+      background: rgba(28, 57, 110, .74);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .advanced-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+    .advanced-field { display: grid; gap: 8px; }
+    .advanced-field label { color: #c8d9ef; font-size: 12px; font-weight: 600; }
+    .search-message {
+      margin-top: 20px;
+      padding: 13px 15px;
+      border: 1px solid rgba(65, 185, 255, .24);
+      border-radius: 12px;
+      color: #bfeaff;
+      background: rgba(12, 72, 122, .22);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .search-message:empty { display: none; }
+    .back-home { display: inline-block; margin-bottom: 20px; color: #a7c7ec; font-size: 13px; text-decoration: none; }
+    .back-home:hover { color: white; }
+    .search-note { margin: 22px 0 0; color: #87a7ce; font-size: 12px; line-height: 1.6; }
+    .resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .resource-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      min-height: 110px;
+      padding: 18px;
+      border: 1px solid rgba(105, 151, 226, .18);
+      border-radius: 16px;
+      color: #eaf3ff;
+      background: linear-gradient(130deg, rgba(20, 52, 103, .76), rgba(11, 34, 76, .78));
+      text-decoration: none;
+      transition: transform .18s, border-color .18s, background .18s;
+    }
+    .resource-link:hover { transform: translateY(-2px); border-color: rgba(85, 204, 255, .55); background: rgba(29, 66, 124, .88); }
+    .resource-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      border-radius: 13px;
+      color: #89e2ff;
+      background: rgba(48, 119, 204, .25);
+      font-size: 20px;
+    }
+    .resource-link strong { display: block; margin: 2px 0 6px; font-size: 14px; }
+    .resource-link small { display: block; color: #a9c1df; font-size: 12px; line-height: 1.5; }
+    .resource-arrow { margin-left: auto; color: #74cfff; font-size: 17px; }
+    @media (max-width: 560px) {
+      .search-panel #globalSearchForm { flex-direction: column; }
+      .advanced-fields { grid-template-columns: 1fr; gap: 14px; }
+      .advanced-actions { align-items: stretch; flex-direction: column; }
+      .resource-grid { grid-template-columns: 1fr; }
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 648px;
+      padding: 27px 32px 25px;
+      border: 1px solid rgba(112, 166, 242, .19);
+      border-radius: 23px;
+      background:
+        radial-gradient(ellipse at 78% 30%, rgba(26, 91, 196, .25), transparent 36%),
+        linear-gradient(120deg, rgba(8, 29, 66, .97), rgba(5, 23, 56, .96));
+      box-shadow: 0 22px 55px rgba(0, 0, 0, .2), inset 0 1px rgba(255,255,255,.035);
+    }
+    .hero-copy { position: relative; z-index: 1; max-width: 61%; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 15px;
+      border: 1px solid rgba(37, 220, 247, .75);
+      border-radius: 20px;
+      color: #27e5f4;
+      background: rgba(1, 37, 72, .35);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .eyebrow span { font-size: 16px; }
+    h1 {
+      margin: 17px 0 12px;
+      font-size: clamp(36px, 3.4vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -2px;
+    }
+    h1 .gradient-text {
+      display: block;
+      color: transparent;
+      background: linear-gradient(95deg, #18d8f6 6%, #53b9ff 49%, #c244fa 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .hero-description { max-width: 510px; margin: 0; color: #d0def1; font-size: 16px; line-height: 1.55; }
+    .hero-art {
+      position: absolute;
+      top: 21px;
+      right: 1%;
+      width: 43%;
+      height: 285px;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+    .orbit {
+      position: absolute;
+      width: 80%;
+      height: 49%;
+      border: 1px solid rgba(29, 153, 255, .34);
+      border-radius: 50%;
+      transform: rotate(-15deg);
+      box-shadow: 0 0 25px rgba(42, 94, 255, .12);
+    }
+    .orbit::before, .orbit::after {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #36cbff;
+      box-shadow: 0 0 14px #159eff;
+      content: "";
+    }
+    .orbit::before { top: 3px; left: 19%; }
+    .orbit::after { right: 13%; bottom: 12px; background: #9b64ff; }
+    .globe {
+      position: absolute;
+      top: 25px;
+      width: 143px;
+      height: 143px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 2px solid rgba(72, 211, 255, .85);
+      border-radius: 50%;
+      color: #9beeff;
+      background:
+        radial-gradient(circle at 31% 27%, rgba(131, 244, 255, .96), transparent 10%),
+        radial-gradient(ellipse at 62% 55%, rgba(13, 118, 240, .28), transparent 53%),
+        radial-gradient(circle at 38% 36%, #1b9dff, #0752bd 60%, #092766);
+      box-shadow: 0 0 24px #087eff, 0 0 57px rgba(0, 119, 255, .6), inset -18px -14px 27px rgba(1, 8, 48, .72), inset 7px 7px 17px rgba(160, 247, 255, .5);
+      font-size: 64px;
+      text-shadow: 0 0 12px #41c8ff;
+    }
+    .globe::after {
+      position: absolute;
+      inset: 12px 29px;
+      border-right: 1px solid rgba(125, 233, 255, .6);
+      border-left: 1px solid rgba(125, 233, 255, .6);
+      border-radius: 50%;
+      content: "";
+    }
+    .book-art {
+      position: absolute;
+      bottom: 10px;
+      width: 270px;
+      height: 74px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      filter: drop-shadow(0 12px 14px rgba(0, 30, 133, .7));
+    }
+    .book-art::before, .book-art::after {
+      width: 50%;
+      height: 55px;
+      border: 1px solid rgba(105, 212, 255, .7);
+      background: linear-gradient(165deg, #b0f5ff, #287aff 42%, #2528c5);
+      content: "";
+    }
+    .book-art::before {
+      border-radius: 9px 4px 5px 19px;
+      transform: skewY(10deg);
+      transform-origin: bottom right;
+    }
+    .book-art::after {
+      border-radius: 4px 9px 19px 5px;
+      transform: skewY(-10deg);
+      transform-origin: bottom left;
+    }
+    .book-light {
+      position: absolute;
+      bottom: 52px;
+      width: 205px;
+      height: 50px;
+      border-radius: 50%;
+      background: #28e6ff;
+      filter: blur(28px);
+      opacity: .8;
+    }
+    .floating-icon {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 45px;
+      border: 1px solid rgba(85, 186, 255, .4);
+      border-radius: 8px;
+      color: #8ee6ff;
+      background: linear-gradient(145deg, rgba(41, 171, 255, .7), rgba(74, 65, 217, .8));
+      box-shadow: 0 0 19px rgba(20, 121, 255, .4);
+      font-size: 19px;
+      transform: rotate(-12deg);
+    }
+    .floating-icon.one { top: 40px; left: 18%; }
+    .floating-icon.two { top: 96px; right: 2%; color: #cbb8ff; transform: rotate(12deg); }
+    .floating-icon.three { top: 157px; left: 9%; }
+    .features {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 2vw, 25px);
+      margin-top: 33px;
+    }
+    .feature { display: flex; align-items: center; gap: 9px; color: #e4efff; font-size: 12px; line-height: 1.4; }
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      border: 1px solid rgba(58, 160, 255, .22);
+      border-radius: 15px;
+      color: #85dfff;
+      background: linear-gradient(145deg, rgba(14, 89, 169, .75), rgba(38, 48, 132, .7));
+      font-size: 21px;
+    }
+    .research-search {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 88px;
+      margin-top: 34px;
+      padding: 11px 13px;
+      border: 1px solid rgba(72, 147, 255, .68);
+      border-radius: 20px;
+      background: rgba(8, 26, 62, .92);
+      box-shadow: 0 0 0 5px rgba(69, 73, 218, .12), 0 0 25px rgba(76, 91, 255, .19);
+    }
+    .research-search-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+      padding: 0 16px;
+      border: 1px solid rgba(177, 169, 255, .82);
+      border-radius: 30px;
+      background: linear-gradient(90deg, rgba(36, 45, 88, .9), rgba(23, 54, 96, .88));
+      box-shadow: 0 0 12px rgba(148, 112, 255, .45);
+    }
+    .search-glass { color: #eaf5ff; font-size: 25px; }
+    .research-search input {
+      width: 100%;
+      min-width: 70px;
+      height: 54px;
+      border: 0;
+      outline: 0;
+      color: white;
+      background: transparent;
+      font-size: 13px;
+    }
+    .research-search input::placeholder { color: #d2deef; }
+    .research-search select {
+      max-width: 112px;
+      padding: 10px 4px;
+      border: 0;
+      color: #eaf2ff;
+      background: transparent;
+      font-size: 12px;
+    }
+    .research-search select option { color: #10203a; }
+    .search-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-width: 138px;
+      height: 56px;
+      border: 0;
+      border-radius: 30px;
+      color: white;
+      background: linear-gradient(100deg, #05c6ed, #3169ff 58%, #b13ded);
+      box-shadow: 0 5px 22px rgba(33, 111, 255, .35);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .search-submit:hover { filter: brightness(1.12); }
+    .popular { margin-top: 28px; }
+    .popular-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+    .popular-heading h2 { margin: 0; font-size: 16px; }
+    .popular-heading h2 span { margin-right: 8px; }
+    .popular-heading a { color: #a9c5e8; text-decoration: none; font-size: 12px; }
+    .popular-heading a:hover { color: white; }
+    .topics { display: flex; flex-wrap: wrap; gap: 11px 10px; }
+    .topic {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 40px;
+      padding: 0 15px;
+      border: 1px solid rgba(105, 151, 226, .12);
+      border-radius: 22px;
+      color: #e1eaff;
+      background: linear-gradient(120deg, rgba(26, 54, 111, .88), rgba(21, 49, 91, .88));
+      cursor: pointer;
+      font-size: 12px;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .topic:hover { transform: translateY(-2px); border-color: rgba(100, 197, 255, .6); background: rgba(45, 77, 158, .88); }
+    .topic:nth-child(n+6) { background: linear-gradient(120deg, rgba(43, 42, 123, .88), rgba(30, 49, 106, .9)); }
+    .topic span { color: #88d9ff; font-size: 15px; }
+    .right-column { display: grid; gap: 15px; }
+    .quick-card {
+      overflow: hidden;
+      border: 1px solid rgba(164, 208, 255, .38);
+      border-radius: 20px;
+      color: #172f57;
+      background: #f0f7ff;
+      box-shadow: 0 16px 35px rgba(0, 0, 0, .18);
+    }
+    .quick-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 88px;
+      padding: 14px 19px;
+      color: #fff;
+      background: linear-gradient(110deg, #735af3, #318bea 60%, #41d8c9);
+    }
+    .quick-heading .rocket {
+      display: grid;
+      place-items: center;
+      width: 60px;
+      height: 60px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 50%;
+      background: rgba(255,255,255,.16);
+      font-size: 28px;
+    }
+    .quick-heading h2 { margin: 0 0 4px; font-size: 16px; }
+    .quick-heading p { margin: 0; color: rgba(255,255,255,.83); font-size: 12px; }
+    .quick-list { display: grid; gap: 10px; padding: 13px; }
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 72px;
+      padding: 10px 12px;
+      border: 1px solid rgba(31, 83, 145, .045);
+      border-radius: 16px;
+      color: #173259;
+      background: linear-gradient(110deg, #f8fbff, #eaf3ff);
+      text-decoration: none;
+      box-shadow: 0 5px 12px rgba(43, 93, 147, .06);
+      transition: transform .18s, box-shadow .18s;
+    }
+    .quick-link:hover { transform: translateX(3px); box-shadow: 0 8px 17px rgba(43, 93, 147, .14); }
+    .quick-link-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
+      border-radius: 17px;
+      color: #147de5;
+      background: linear-gradient(145deg, #e4f3ff, #d6e8ff);
+      font-size: 25px;
+    }
+    .quick-link strong { display: block; margin-bottom: 4px; font-size: 13px; }
+    .quick-link small { display: block; color: #56749d; font-size: 11px; }
+    .quick-arrow { margin-left: auto; color: #557ba9; font-size: 22px; }
+    .assistant-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 121px;
+      padding: 17px 19px;
+      border: 1px solid rgba(148, 180, 255, .3);
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(112deg, #08b8ed, #3168f4 57%, #9854ee);
+      box-shadow: 0 15px 32px rgba(24, 79, 212, .2);
+      text-decoration: none;
+      transition: filter .2s, transform .2s;
+    }
+    .assistant-card:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .bot-icon {
+      display: grid;
+      place-items: center;
+      width: 59px;
+      height: 59px;
+      flex: 0 0 59px;
+      border-radius: 50%;
+      color: #133879;
+      background: #5be3ff;
+      box-shadow: inset 0 0 0 7px rgba(255,255,255,.12);
+      font-size: 28px;
+    }
+    .assistant-card strong { display: block; margin-bottom: 5px; font-size: 16px; }
+    .assistant-card small { color: rgba(255,255,255,.83); font-size: 11px; line-height: 1.4; }
+    .assistant-arrow { margin-left: auto; font-size: 21px; }
+    .motto {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 5px 0;
+      color: #9fbfe0;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    .motto::before, .motto::after { width: 30px; height: 1px; background: #1d5d9a; content: ""; }
+    .motto span { color: #4be2b0; font-size: 14px; }
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 5;
+      max-width: min(440px, calc(100vw - 36px));
+      padding: 13px 18px;
+      border: 1px solid rgba(76, 202, 255, .4);
+      border-radius: 12px;
+      color: #e7f7ff;
+      background: #102d54;
+      box-shadow: 0 12px 35px rgba(0,0,0,.35);
+      font-size: 13px;
+    }
+    .toast[hidden] { display: none; }
+    @media (max-width: 1250px) {
+      .topbar { gap: 18px; padding: 0 20px; }
+      .brand { width: 285px; flex-basis: 285px; }
+      .top-nav { gap: 14px; }
+      .top-nav a { font-size: 11px; }
+      .layout { grid-template-columns: 220px minmax(0, 1fr); gap: 16px; }
+      .home-view { grid-template-columns: minmax(0, 1fr) 300px; }
+      .hero { padding: 25px 24px; }
+      .hero-art { width: 40%; }
+      .features { gap: 12px; }
+      .feature { font-size: 11px; }
+    }
+    @media (max-width: 1030px) {
+      .brand { width: auto; flex-basis: auto; }
+      .brand-name { font-size: 19px; }
+      .top-search { max-width: none; }
+      .top-nav { gap: 10px; }
+      .top-nav a { font-size: 0; }
+      .top-nav .nav-icon { font-size: 17px; }
+      .layout { grid-template-columns: 190px minmax(0, 1fr); }
+      .home-view { grid-template-columns: minmax(0, 1fr); }
+      .right-column { grid-template-columns: minmax(0, 1fr) minmax(240px, .75fr); align-items: start; }
+      .quick-card { grid-row: span 2; }
+      .hero { min-height: 620px; }
+      .hero-art { right: 2%; width: 39%; }
+    }
+    @media (max-width: 700px) {
+      .topbar { height: auto; min-height: 72px; flex-wrap: wrap; gap: 11px; padding: 10px 14px; }
+      .brand { flex: 1 1 auto; gap: 8px; }
+      .brand-mark { width: 43px; height: 43px; font-size: 27px; }
+      .brand-name { font-size: 17px; }
+      .brand-tagline { font-size: 8px; }
+      .top-search { order: 3; flex-basis: 100%; height: 42px; }
+      .shortcut { display: none; }
+      .top-nav { margin-left: 0; }
+      .top-nav a { padding: 7px 3px; }
+      .profile { width: 36px; height: 36px; flex-basis: 36px; }
+      .layout { display: block; min-height: calc(100vh - 72px); padding: 12px; }
+      .sidebar { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 0 0 14px; }
+      .side-group { display: grid; gap: 4px; }
+      .side-label { display: block; margin: 4px 0 3px 8px; }
+      .side-quote { display: none; }
+      .side-link { min-height: 42px; gap: 10px; padding: 0 12px; font-size: 13px; }
+      .side-icon { width: 20px; font-size: 17px; }
+      .home-view { gap: 12px; }
+      .hero { min-height: auto; padding: 21px 17px; border-radius: 18px; }
+      .hero-copy { max-width: 100%; }
+      .eyebrow { padding: 7px 11px; font-size: 10px; }
+      h1 { max-width: 70%; margin-top: 14px; font-size: clamp(33px, 9vw, 47px); letter-spacing: -1.5px; }
+      .hero-description { max-width: 70%; font-size: 13px; }
+      .hero-art { top: 46px; right: -9%; width: 49%; height: 210px; opacity: .83; }
+      .globe { top: 13px; width: 95px; height: 95px; font-size: 43px; }
+      .book-art { bottom: 4px; width: 190px; height: 55px; }
+      .book-art::before, .book-art::after { height: 42px; }
+      .floating-icon { width: 29px; height: 34px; font-size: 15px; }
+      .features { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 22px; }
+      .feature { gap: 8px; font-size: 10px; }
+      .feature-icon { width: 37px; height: 37px; flex-basis: 37px; border-radius: 12px; font-size: 17px; }
+      .research-search { gap: 6px; min-height: 66px; margin-top: 22px; padding: 7px; border-radius: 15px; }
+      .research-search-inner { gap: 6px; padding: 0 10px; border-radius: 12px; }
+      .search-glass { font-size: 19px; }
+      .research-search input { height: 44px; font-size: 11px; }
+      .research-search select { display: none; }
+      .search-submit { min-width: 45px; width: 45px; height: 45px; font-size: 0; }
+      .search-submit span { font-size: 18px; }
+      .popular { margin-top: 22px; }
+      .popular-heading h2 { font-size: 14px; }
+      .topics { gap: 8px; }
+      .topic { min-height: 35px; padding: 0 11px; font-size: 11px; }
+      .right-column { grid-template-columns: 1fr; }
+      .quick-card { grid-row: auto; }
+      .quick-heading { min-height: 77px; }
+      .quick-list { grid-template-columns: 1fr 1fr; gap: 8px; padding: 9px; }
+      .quick-link { min-height: 82px; gap: 8px; padding: 8px; }
+      .quick-link-icon { width: 39px; height: 39px; flex-basis: 39px; border-radius: 12px; font-size: 19px; }
+      .quick-link strong { font-size: 11px; }
+      .quick-link small { font-size: 9px; }
+      .quick-arrow { display: none; }
+      .assistant-card { min-height: 96px; }
+      .motto { margin-bottom: 5px; }
+    }
+    @media (max-width: 390px) {
+      .top-nav { gap: 4px; }
+      .top-nav a { padding-right: 1px; padding-left: 1px; }
+      .hero-art { right: -17%; opacity: .65; }
+      .hero-description { max-width: 78%; }
+      .quick-list { grid-template-columns: 1fr; }
+      .quick-link { min-height: 65px; }
+      .quick-arrow { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Research Navigator home">
+      <span class="brand-mark" aria-hidden="true">📖</span>
+      <span><span class="brand-name">Research Navigator</span><span class="brand-tagline">DISCOVER · READ · ANALYZE · GROW</span></span>
+    </a>
+    <label class="top-search">
+      <span aria-hidden="true">⌕</span>
+      <input id="topSearch" type="search" placeholder="Search research papers, topics, authors, etc..." aria-label="Search research" />
+      <span class="shortcut">Ctrl + K</span>
+    </label>
+    <nav class="top-nav" aria-label="Main navigation">
+      <a class="active" href="#home"><span class="nav-icon">⌂</span>Home</a>
+      <a href="#global-search"><span class="nav-icon">◉</span>Explore</a>
+      <a href="#faculty"><span class="nav-icon">♟</span>Faculty Research</a>
+      <a href="#saved"><span class="nav-icon">▣</span>Saved Papers</a>
+      <a href="#research-websites"><span class="nav-icon">◧</span>Resources</a>
+    </nav>
+    <div class="profile" id="profileAvatar" aria-label="User profile">U</div>
+  </header>
+
+  <div class="layout" id="home">
+    <aside class="sidebar" aria-label="Research navigation">
+      <a class="side-link selected" href="#home"><span class="side-icon">⌂</span>Home</a>
+      <div class="side-group">
+        <p class="side-label">SEARCH &amp; DISCOVER</p>
+        <a class="side-link" href="#global-search"><span class="side-icon">⌕</span>Global Search</a>
+        <a class="side-link" href="#advanced-search"><span class="side-icon">☷</span>Advanced Search</a>
+        <a class="side-link" href="#research-websites"><span class="side-icon">◎</span>Research Websites</a>
+        <a class="side-link" href="#topics"><span class="side-icon">▦</span>Research Categories</a>
+      </div>
+      <div class="side-group">
+        <p class="side-label">MY RESEARCH</p>
+        <a class="side-link" href="#saved"><span class="side-icon">▮</span>Saved Papers</a>
+        <a class="side-link" href="#analyses"><span class="side-icon">▴</span>My Analyses</a>
+        <a class="side-link" href="#library"><span class="side-icon">▰</span>My Library</a>
+      </div>
+      <div class="side-quote"><span class="bulb">♧</span><span>“Better research<br>builds a brighter future.”</span><span class="arrow">➜</span></div>
+    </aside>
+
+    <main class="content">
+      <div class="home-view site-view active" id="homeView">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit"></div><div class="globe">🌐</div>
+          <div class="floating-icon one">▤</div><div class="floating-icon two">⌕</div><div class="floating-icon three">▧</div>
+          <div class="book-light"></div><div class="book-art"></div>
+        </div>
+        <div class="hero-copy">
+          <div class="eyebrow"><span>✣</span> AI-POWERED RESEARCH PLATFORM</div>
+          <h1 id="heroTitle">Your Gateway to<span class="gradient-text">Global Research</span></h1>
+          <p class="hero-description">Search academic papers, explore new ideas, and use AI-powered insights to accelerate your research.</p>
+        </div>
+        <div class="features" aria-label="Platform features">
+          <div class="feature"><span class="feature-icon">ϟ</span><span>Smarter<br>Search</span></div>
+          <div class="feature"><span class="feature-icon">✿</span><span>AI-Powered<br>Insights</span></div>
+          <div class="feature"><span class="feature-icon">▤</span><span>Save &amp; Organize<br>Papers</span></div>
+          <div class="feature"><span class="feature-icon">▥</span><span>Build Your<br>Knowledge</span></div>
+        </div>
+        <form class="research-search" id="researchSearch">
+          <div class="research-search-inner">
+            <span class="search-glass" aria-hidden="true">⌕</span>
+            <input id="mainSearch" type="search" placeholder="Search for research papers, authors, topics..." aria-label="Search papers, authors, and topics" />
+            <select aria-label="Search field">
+              <option>All fields</option><option>Title</option><option>Author</option><option>Topic</option>
+            </select>
+          </div>
+          <button class="search-submit" type="submit"><span aria-hidden="true">⌕</span>Search</button>
+        </form>
+        <section class="popular" id="topics" aria-labelledby="popularTitle">
+          <div class="popular-heading"><h2 id="popularTitle"><span aria-hidden="true">🔥</span>Popular Searches</h2><a href="#topics">View all →</a></div>
+          <div class="topics">
+            <button class="topic" type="button"><span>✣</span>AI</button>
+            <button class="topic" type="button"><span>▦</span>Machine Learning</button>
+            <button class="topic" type="button"><span>✿</span>Deep Learning</button>
+            <button class="topic" type="button"><span>●</span>NLP</button>
+            <button class="topic" type="button"><span>◉</span>Computer Vision</button>
+            <button class="topic" type="button"><span>✦</span>Generative AI</button>
+            <button class="topic" type="button"><span>▤</span>Data Science</button>
+            <button class="topic" type="button"><span>▣</span>LLM</button>
+            <button class="topic" type="button"><span>♟</span>Robotics</button>
+            <button class="topic" type="button"><span>⬡</span>Cyber Security</button>
+          </div>
+        </section>
+      </section>
+
+      <aside class="right-column" aria-label="Quick access">
+        <section class="quick-card">
+          <div class="quick-heading"><span class="rocket" aria-hidden="true">🚀</span><span><h2>Quick Access</h2><p>Jump to key features</p></span><span class="quick-arrow">›</span></div>
+          <div class="quick-list">
+            <a class="quick-link" href="#research-websites"><span class="quick-link-icon">◎</span><span><strong>Research Websites</strong><small>Explore academic sources</small></span><span class="quick-arrow">›</span></a>
+            <a class="quick-link" href="#faculty"><span class="quick-link-icon">♟</span><span><strong>Faculty Research</strong><small>College publications</small></span><span class="quick-arrow">›</span></a>
+            <a class="quick-link" href="#saved"><span class="quick-link-icon">▮</span><span><strong>Saved Papers</strong><small>Your research library</small></span><span class="quick-arrow">›</span></a>
+            <a class="quick-link" href="#global-search"><span class="quick-link-icon">✣</span><span><strong>AI Research</strong><small>Discover and learn</small></span><span class="quick-arrow">›</span></a>
+          </div>
+        </section>
+        <a class="assistant-card" href="#assistant" id="assistant">
+          <span class="bot-icon" aria-hidden="true">♙</span>
+          <span><strong>Ask Research Assistant</strong><small>Get help, find papers, analyze ideas</small></span>
+          <span class="assistant-arrow">➜</span>
+        </a>
+        <div class="motto"><span>♣</span> Research Today&nbsp; | &nbsp;Innovation Tomorrow</div>
+      </aside>
+      </div>
+
+      <section class="site-view search-view" id="global-search" aria-labelledby="globalSearchTitle">
+        <a class="back-home" href="#home">← Back to dashboard</a>
+        <div class="eyebrow"><span>⌕</span> SEARCH &amp; DISCOVER</div>
+        <h1 id="globalSearchTitle">Global Search</h1>
+        <p class="search-intro">Search research papers, authors, and academic topics from one place.</p>
+        <div class="search-panel">
+          <form id="globalSearchForm">
+            <input id="globalQuery" type="search" placeholder="Try “machine learning in healthcare”" aria-label="Search papers, authors, and topics">
+            <button class="primary-action" type="submit">Search papers</button>
+          </form>
+          <p class="search-hint">Search by paper title, author name, keyword, or research topic.</p>
+          <h2 class="search-section-title">Popular searches</h2>
+          <div class="search-chips">
+            <button type="button">Artificial Intelligence</button>
+            <button type="button">Machine Learning</button>
+            <button type="button">Climate Science</button>
+            <button type="button">Healthcare</button>
+            <button type="button">Cyber Security</button>
+          </div>
+          <div class="search-message" id="globalSearchMessage" role="status" aria-live="polite"></div>
+          <p class="search-note">Research results can be added here when a research index is connected.</p>
+        </div>
+      </section>
+
+      <section class="site-view search-view" id="advanced-search" aria-labelledby="advancedSearchTitle">
+        <a class="back-home" href="#home">← Back to dashboard</a>
+        <div class="eyebrow"><span>☷</span> SEARCH &amp; DISCOVER</div>
+        <h1 id="advancedSearchTitle">Advanced Search</h1>
+        <p class="search-intro">Combine search terms and filters to narrow down academic research.</p>
+        <div class="search-panel">
+          <form id="advancedSearchForm">
+            <div class="advanced-fields">
+              <div class="advanced-field"><label for="advancedKeywords">Keywords</label><input id="advancedKeywords" type="search" placeholder="e.g. renewable energy"></div>
+              <div class="advanced-field"><label for="advancedAuthor">Author</label><input id="advancedAuthor" type="text" placeholder="Author name"></div>
+              <div class="advanced-field"><label for="fromYear">From year</label><select id="fromYear"><option value="">Any year</option></select></div>
+              <div class="advanced-field"><label for="toYear">To year</label><select id="toYear"><option value="">Any year</option></select></div>
+              <div class="advanced-field"><label for="contentType">Content type</label><select id="contentType"><option>All content</option><option>Journal articles</option><option>Conference papers</option><option>Books</option><option>Theses</option></select></div>
+              <div class="advanced-field"><label for="sortBy">Sort results</label><select id="sortBy"><option>Relevance</option><option>Newest first</option><option>Oldest first</option></select></div>
+            </div>
+            <div class="form-actions advanced-actions">
+              <button class="primary-action" type="submit">Apply filters</button>
+              <button class="back-home" id="clearAdvancedSearch" type="reset">Clear filters</button>
+            </div>
+          </form>
+          <div class="search-message" id="advancedSearchMessage" role="status" aria-live="polite"></div>
+          <p class="search-note">Filtered research results can be added here when a research index is connected.</p>
+        </div>
+      </section>
+
+      <section class="site-view search-view" id="research-websites" aria-labelledby="researchWebsitesTitle">
+        <a class="back-home" href="#home">← Back to dashboard</a>
+        <div class="eyebrow"><span>◎</span> RESEARCH RESOURCES</div>
+        <h1 id="researchWebsitesTitle">Research Websites</h1>
+        <p class="search-intro">Explore trusted scholarly search engines, subject repositories, and open-access research collections.</p>
+        <div class="search-panel">
+          <div class="resource-grid">
+            <a class="resource-link" href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">G</span><span><strong>Google Scholar</strong><small>Search scholarly articles, theses, books, and citations.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://www.semanticscholar.org/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">S</span><span><strong>Semantic Scholar</strong><small>Discover academic papers with AI-powered research tools.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">P</span><span><strong>PubMed</strong><small>Find biomedical and life sciences literature.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://arxiv.org/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">A</span><span><strong>arXiv</strong><small>Browse open preprints across science and technology.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://doaj.org/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">O</span><span><strong>DOAJ</strong><small>Search peer-reviewed open-access journals.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://core.ac.uk/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">C</span><span><strong>CORE</strong><small>Access open research papers from repositories worldwide.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://ieeexplore.ieee.org/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">I</span><span><strong>IEEE Xplore</strong><small>Explore engineering, computing, and technology publications.</small></span><span class="resource-arrow">↗</span>
+            </a>
+            <a class="resource-link" href="https://search.crossref.org/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-icon">↗</span><span><strong>Crossref</strong><small>Look up scholarly works and publication metadata.</small></span><span class="resource-arrow">↗</span>
+            </a>
+          </div>
+          <p class="search-note">External sites may have their own access requirements, terms, and availability.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script>
+    const userInfo = document.getElementById('profileAvatar');
+    const storedUser = localStorage.getItem('lampLoginUser');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        if (typeof user.username === 'string' && user.username.trim()) {
+          userInfo.textContent = user.username.trim().charAt(0).toUpperCase();
+          userInfo.title = user.username;
+        }
+      } catch (error) {
+        console.error('Unable to read saved user profile.', error);
+      }
+    }
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.hidden = false;
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => { toast.hidden = true; }, 2800);
+    }
+    function runSearch(query) {
+      const term = query.trim();
+      if (!term) {
+        showToast('Enter a paper, author, or topic to search.');
+        return;
+      }
+      document.getElementById('globalQuery').value = term;
+      window.location.hash = 'global-search';
+      updateView();
+    }
+    document.getElementById('researchSearch').addEventListener('submit', event => {
+      event.preventDefault();
+      runSearch(document.getElementById('mainSearch').value);
+    });
+    document.getElementById('topSearch').addEventListener('keydown', event => {
+      if (event.key === 'Enter') runSearch(event.currentTarget.value);
+    });
+    document.querySelectorAll('.topic').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('mainSearch').value = button.textContent.trim();
+        runSearch(button.textContent.trim());
+      });
+    });
+    document.getElementById('globalSearchForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const query = document.getElementById('globalQuery').value.trim();
+      document.getElementById('globalSearchMessage').textContent = query
+        ? `Search submitted for “${query}”. Results can be connected to a research index.`
+        : 'Enter a paper, author, or topic to search.';
+    });
+    document.querySelectorAll('.search-chips button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('globalQuery').value = button.textContent.trim();
+        document.getElementById('globalQuery').focus();
+      });
+    });
+    const fromYear = document.getElementById('fromYear');
+    const toYear = document.getElementById('toYear');
+    for (let year = new Date().getFullYear(); year >= 1900; year--) {
+      for (const select of [fromYear, toYear]) {
+        const option = document.createElement('option');
+        option.value = String(year);
+        option.textContent = String(year);
+        select.appendChild(option);
+      }
+    }
+    document.getElementById('advancedSearchForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const keywords = document.getElementById('advancedKeywords').value.trim();
+      const author = document.getElementById('advancedAuthor').value.trim();
+      const filters = [
+        keywords && `keywords: “${keywords}”`,
+        author && `author: ${author}`,
+        fromYear.value && `from ${fromYear.value}`,
+        toYear.value && `to ${toYear.value}`,
+        document.getElementById('contentType').value !== 'All content' && document.getElementById('contentType').value
+      ].filter(Boolean);
+      document.getElementById('advancedSearchMessage').textContent = filters.length
+        ? `Filters applied (${filters.join(', ')}). Results can be connected to a research index.`
+        : 'Choose at least one filter to narrow your research.';
+    });
+    document.getElementById('advancedSearchForm').addEventListener('reset', () => {
+      document.getElementById('advancedSearchMessage').textContent = '';
+    });
+
+    function updateView() {
+      const route = window.location.hash.slice(1);
+      const viewName = ['global-search', 'advanced-search', 'research-websites'].includes(route) ? route : 'home';
+      document.querySelectorAll('.site-view').forEach(view => {
+        view.classList.toggle('active', view.id === (viewName === 'home' ? 'homeView' : viewName));
+      });
+      document.querySelectorAll('.top-nav a').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${viewName}` ||
+          (viewName === 'global-search' && link.textContent.includes('Explore')));
+      });
+      document.querySelectorAll('.sidebar .side-link').forEach(link => {
+        link.classList.toggle('selected', link.getAttribute('href') === `#${viewName}`);
+      });
+      document.title = viewName === 'advanced-search' ? 'Advanced Search | Research Navigator'
+        : viewName === 'research-websites' ? 'Research Websites | Research Navigator'
+        : viewName === 'global-search' ? 'Global Search | Research Navigator'
+        : 'Research Navigator | Dashboard';
+    }
+    window.addEventListener('hashchange', updateView);
+    updateView();
+
+    document.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        document.getElementById('topSearch').focus();
+      }
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', event => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target && link.getAttribute('href') !== '#') {
+          event.preventDefault();
+          showToast(`${link.textContent.trim()} will be available here.`);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

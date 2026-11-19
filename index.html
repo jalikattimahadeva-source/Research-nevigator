@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lamp Login Form</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e2c62'/%3E%3Cpath d='M12 17c8-4 14-2 20 2v31c-6-4-12-6-20-2zM52 17c-8-4-14-2-20 2v31c6-4 12-6 20-2z' fill='%236ee7ff' stroke='%23dffaff' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="room" id="room">
+    <div class="room-light" id="room-light"></div><div class="fireflies" id="fireflies"></div>
+    <section class="lamp-side"><div class="lamp-container" id="lamp-container">
+      <div class="lamp-glow"></div><div class="lamp-head"></div><div class="light-beam"></div>
+      <div class="lamp-stem"></div><div class="lamp-base"></div><div class="desk-surface"></div>
+      <svg class="string-svg" aria-hidden="true"><path id="stringpath" d="M 0 0 L 0 80"></path></svg>
+      <div class="string-handle" id="stringHandle" role="button" tabindex="0" aria-label="Pull lamp string"></div>
+    </div></section>
+    <section class="login-side"><form class="glass login-card" id="loginForm" action="dashboard.html" method="get">
+      <div class="glass-line"></div><div class="login-heading"><h2 id="formTitle"># Discover Knowledge.</h2><p id="formSubtitle"># Power Innovation.</p></div>
+      <div class="inputs">
+        <label class="input-wrap"><span class="input-icon user-icon" aria-hidden="true">♙</span><input name="username" type="text" placeholder="Username" autocomplete="username" required></label>
+        <label class="input-wrap"><span class="input-icon mail-icon" aria-hidden="true">✉</span><input name="email" type="email" placeholder="Email Address" autocomplete="email" required></label>
+        <label class="input-wrap"><span class="input-icon lock-icon" aria-hidden="true">▣</span><input name="password" type="password" placeholder="Password" autocomplete="current-password" required></label>
+        <label class="input-wrap confirm-password" id="confirmPasswordWrap" hidden><span class="input-icon lock-icon" aria-hidden="true">▣</span><input name="confirmPassword" type="password" placeholder="Confirm Password" autocomplete="new-password"></label>
+      </div>
+      <button class="sign-in" id="submitButton" type="submit">Sign In</button>
+      <p class="auth-switch" id="authPrompt">New to Research Navigator? <button type="button" id="authToggle">Create an account</button></p>
+      <div class="divider"><span></span><b>OR CONTINUE WITH</b><span></span></div>
+      <div class="socials"><button class="social-btn" type="button"><span class="google-icon">G</span> Google</button><button class="social-btn" type="button"><span class="github-icon">●</span> GitHub</button></div>
+      <a class="portal-link" href="https://access.vtuconsortium.com/bgmitm" target="_blank" rel="noreferrer"><span class="portal-badge">↗</span> VTU Consortium Portal</a>
+      <p class="form-message" id="formMessage" aria-live="polite"></p>
+    </form></section>
+  </main>
+  <script src="script.js?v=2"></script>
+</body></html>
