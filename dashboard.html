@@ -281,6 +281,17 @@
       line-height: 1.5;
     }
     .search-message:empty { display: none; }
+    .paper-results { display: grid; gap: 12px; margin-top: 16px; }
+    .paper-card {
+      padding: 18px;
+      border: 1px solid rgba(105, 151, 226, .18);
+      border-radius: 15px;
+      background: linear-gradient(130deg, rgba(20, 52, 103, .7), rgba(11, 34, 76, .78));
+    }
+    .paper-title { color: #8fe6ff; font-size: 16px; font-weight: 700; line-height: 1.45; text-decoration: none; }
+    .paper-title:hover { color: white; text-decoration: underline; }
+    .paper-meta { margin: 8px 0 0; color: #b6cbe5; font-size: 12px; line-height: 1.6; }
+    .paper-citations { margin-top: 7px; color: #83b9e8; font-size: 11px; }
     .back-home { display: inline-block; margin-bottom: 20px; color: #a7c7ec; font-size: 13px; text-decoration: none; }
     .back-home:hover { color: white; }
     .search-note { margin: 22px 0 0; color: #87a7ce; font-size: 12px; line-height: 1.6; }
@@ -692,6 +703,150 @@
       font-size: 13px;
     }
     .toast[hidden] { display: none; }
+    .chat-toggle {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 19px;
+      border: 1px solid rgba(164, 221, 255, .4);
+      border-radius: 28px;
+      color: #fff;
+      background: linear-gradient(110deg, #08b8ed, #4264f5 65%, #934fe9);
+      box-shadow: 0 12px 32px rgba(20, 86, 220, .4);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .chat-toggle:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .chat-toggle-icon { font-size: 20px; }
+    .help-chat {
+      position: fixed;
+      right: 22px;
+      bottom: 88px;
+      z-index: 21;
+      display: flex;
+      flex-direction: column;
+      width: min(390px, calc(100vw - 28px));
+      height: min(560px, calc(100vh - 120px));
+      min-height: 360px;
+      overflow: hidden;
+      border: 1px solid rgba(123, 194, 255, .35);
+      border-radius: 20px;
+      color: #eef5ff;
+      background: #071a38;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, .55);
+    }
+    .help-chat[hidden] { display: none; }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 70px;
+      padding: 12px 15px;
+      background: linear-gradient(110deg, #087fbf, #3659d7 70%, #7947c9);
+    }
+    .chat-header-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: #07346b;
+      background: #73e5ff;
+      font-size: 21px;
+    }
+    .chat-heading { flex: 1; }
+    .chat-heading strong { display: block; font-size: 14px; }
+    .chat-heading small { display: block; margin-top: 3px; color: #dbf4ff; font-size: 11px; }
+    .chat-close {
+      width: 35px;
+      height: 35px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50%;
+      color: white;
+      background: rgba(255,255,255,.1);
+      cursor: pointer;
+      font-size: 19px;
+    }
+    .chat-messages {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 11px;
+      overflow: auto;
+      padding: 16px 13px;
+      scroll-behavior: smooth;
+    }
+    .chat-message {
+      max-width: 90%;
+      padding: 11px 13px;
+      border: 1px solid rgba(139, 179, 226, .12);
+      border-radius: 14px 14px 14px 4px;
+      color: #deebfc;
+      background: rgba(34, 57, 96, .72);
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+    .chat-message.user {
+      align-self: flex-end;
+      border-color: rgba(92, 175, 255, .25);
+      border-radius: 14px 14px 4px 14px;
+      color: white;
+      background: linear-gradient(110deg, #126eb1, #4a54ca);
+    }
+    .chat-suggestions { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 13px 12px; }
+    .chat-suggestions button {
+      padding: 7px 10px;
+      border: 1px solid rgba(83, 181, 244, .28);
+      border-radius: 16px;
+      color: #bdeaff;
+      background: rgba(15, 73, 121, .35);
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .chat-suggestions button:hover { background: rgba(23, 105, 166, .55); }
+    .chat-form {
+      display: flex;
+      gap: 8px;
+      padding: 11px;
+      border-top: 1px solid rgba(129, 177, 235, .14);
+      background: rgba(3, 14, 33, .6);
+    }
+    .chat-form input {
+      width: 100%;
+      min-width: 0;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid rgba(146, 184, 232, .24);
+      border-radius: 12px;
+      outline: 0;
+      color: white;
+      background: rgba(0, 10, 31, .56);
+      font-size: 12px;
+    }
+    .chat-form input::placeholder { color: #91a9c7; }
+    .chat-send {
+      width: 44px;
+      height: 42px;
+      flex: 0 0 44px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(120deg, #08b8ed, #5358df);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .chat-disclaimer { margin: 0; padding: 0 13px 10px; color: #8da7c7; font-size: 10px; }
+    @media (max-width: 700px) {
+      .chat-toggle { right: 14px; bottom: 14px; min-height: 49px; padding: 0 15px; }
+      .help-chat { right: 14px; bottom: 74px; height: min(540px, calc(100vh - 95px)); }
+    }
     @media (max-width: 1250px) {
       .topbar { gap: 18px; padding: 0 20px; }
       .brand { width: 285px; flex-basis: 285px; }
@@ -909,7 +1064,8 @@
             <button type="button">Cyber Security</button>
           </div>
           <div class="search-message" id="globalSearchMessage" role="status" aria-live="polite"></div>
-          <p class="search-note">Research results can be added here when a research index is connected.</p>
+          <div class="paper-results" id="globalPaperResults" aria-live="polite"></div>
+          <p class="search-note">Research papers provided by Crossref. Availability depends on your internet connection.</p>
         </div>
       </section>
 
@@ -934,7 +1090,8 @@
             </div>
           </form>
           <div class="search-message" id="advancedSearchMessage" role="status" aria-live="polite"></div>
-          <p class="search-note">Filtered research results can be added here when a research index is connected.</p>
+          <div class="paper-results" id="advancedPaperResults" aria-live="polite"></div>
+          <p class="search-note">Research papers provided by Crossref. Availability depends on your internet connection.</p>
         </div>
       </section>
 
@@ -976,30 +1133,255 @@
     </main>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <button class="chat-toggle" id="chatToggle" type="button" aria-controls="helpChat" aria-expanded="false">
+    <span class="chat-toggle-icon" aria-hidden="true">♙</span><span>Research Help</span>
+  </button>
+  <section class="help-chat" id="helpChat" role="dialog" aria-labelledby="chatTitle" aria-modal="false" hidden>
+    <header class="chat-header">
+      <span class="chat-header-icon" aria-hidden="true">♙</span>
+      <span class="chat-heading"><strong id="chatTitle">Research Navigator Help</strong><small>Ask how to use the website</small></span>
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">×</button>
+    </header>
+    <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-relevant="additions">
+      <div class="chat-message">Hi! I can help you search papers, use filters, and find research websites. What would you like to know?</div>
+    </div>
+    <div class="chat-suggestions" aria-label="Common questions">
+      <button type="button" data-question="How do I search for papers?">Search papers</button>
+      <button type="button" data-question="How does advanced search work?">Advanced search</button>
+      <button type="button" data-question="Where can I find research websites?">Research websites</button>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <input id="chatInput" type="text" autocomplete="off" placeholder="Type your question..." aria-label="Ask Research Navigator Help" required>
+      <button class="chat-send" type="submit" aria-label="Send message">➤</button>
+    </form>
+    <p class="chat-disclaimer">Website help only; answers are built in, not generated by live AI.</p>
+  </section>
 
   <script>
     const userInfo = document.getElementById('profileAvatar');
     const storedUser = localStorage.getItem('lampLoginUser');
-    if (storedUser) {
+    if (!storedUser) {
+      window.location.replace('index.html');
+    } else {
       try {
         const user = JSON.parse(storedUser);
-        if (typeof user.username === 'string' && user.username.trim()) {
-          userInfo.textContent = user.username.trim().charAt(0).toUpperCase();
-          userInfo.title = user.username;
+        if (!user || typeof user.username !== 'string' || !user.username.trim()) {
+          throw new Error('Saved user profile is incomplete.');
         }
+        userInfo.textContent = user.username.trim().charAt(0).toUpperCase();
+        userInfo.title = user.username.trim();
       } catch (error) {
+        localStorage.removeItem('lampLoginUser');
         console.error('Unable to read saved user profile.', error);
+        window.location.replace('index.html');
       }
     }
 
     const toast = document.getElementById('toast');
     let toastTimer;
+    let activeSearchController;
     function showToast(message) {
       toast.textContent = message;
       toast.hidden = false;
       window.clearTimeout(toastTimer);
       toastTimer = window.setTimeout(() => { toast.hidden = true; }, 2800);
     }
+
+    const chatToggle = document.getElementById('chatToggle');
+    const helpChat = document.getElementById('helpChat');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+    function openChat() {
+      helpChat.hidden = false;
+      chatToggle.setAttribute('aria-expanded', 'true');
+      chatInput.focus();
+    }
+    function closeChat() {
+      helpChat.hidden = true;
+      chatToggle.setAttribute('aria-expanded', 'false');
+      chatToggle.focus();
+    }
+    chatToggle.addEventListener('click', () => {
+      if (helpChat.hidden) openChat();
+      else closeChat();
+    });
+    document.getElementById('chatClose').addEventListener('click', closeChat);
+    document.getElementById('assistant').addEventListener('click', event => {
+      event.preventDefault();
+      openChat();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !helpChat.hidden) closeChat();
+    });
+
+    function addChatMessage(text, sender) {
+      const message = document.createElement('div');
+      message.className = sender === 'user' ? 'chat-message user' : 'chat-message';
+      message.textContent = text;
+      chatMessages.appendChild(message);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function answerQuestion(question) {
+      const text = question.toLowerCase();
+      if (/\b(hi|hello|hey|good morning|good evening)\b/.test(text)) {
+        return 'Hello! Ask me about finding papers, advanced filters, research websites, or using the login page.';
+      }
+      if (/\b(login|log in|sign in|password|account|register|registration)\b/.test(text)) {
+        return 'Open the site from the login page and pull the lamp string if the form is hidden. Enter a username, valid email, and a password of at least 6 characters. This is a demo login only: it does not verify accounts with a server, so do not use a real or reused password.';
+      }
+      if (/\b(advanced|filter|date range|publication year|author filter)\b/.test(text)) {
+        return 'Choose Advanced Search in the left menu. You can combine keywords and author, set a publication-year range, choose a content type, and sort results. Select at least one filter, then press Apply filters.';
+      }
+      if (/\b(website|websites|resource|resources|scholar|pubmed|arxiv|ieee|crossref)\b/.test(text)) {
+        return 'Choose Research Websites in the left menu to open links for Google Scholar, Semantic Scholar, PubMed, arXiv, DOAJ, CORE, IEEE Xplore, and Crossref. External sites may have their own access requirements.';
+      }
+      if (/\b(save|saved|bookmark|library|my papers)\b/.test(text)) {
+        return 'The Saved Papers and My Library navigation is visible, but saving papers is not implemented yet. You can open a paper by selecting its title in the search results.';
+      }
+      if (/\b(no results|no papers|not showing|cannot find|can.t find|empty)\b/.test(text)) {
+        return 'Try broader or fewer keywords and check your internet connection. Global Search uses Crossref; Advanced Search filters those results. If a paper appears, select its title to open its DOI page.';
+      }
+      if (/\b(citation|cite|doi|full text|pdf|source|crossref)\b/.test(text)) {
+        return 'Search results show the paper title, author, publication, year, and citation count when available. Select a title to open its DOI or publisher page. Crossref may not provide the full text or a PDF.';
+      }
+      if (/\b(search|find|paper|papers|article|articles|research)\b/.test(text)) {
+        return 'Choose Global Search in the left menu, enter a topic, paper title, or author, and press Search papers. The site displays up to 10 matching journal records from Crossref. Use Advanced Search for year, author, content-type, and sorting filters.';
+      }
+      if (/\b(ai|chatbot|assistant|understand|answer|question|doubt)\b/.test(text)) {
+        return 'I can explain how to use this website, but I am a built-in help guide—not a live AI research assistant. Try asking about searching papers, advanced filters, login, or research websites.';
+      }
+      return 'I can help with using Research Navigator. Try asking: “How do I search for papers?”, “How does advanced search work?”, or “Where are the research websites?”';
+    }
+
+    function sendChatMessage(question) {
+      const text = question.trim();
+      if (!text) return;
+      addChatMessage(text, 'user');
+      addChatMessage(answerQuestion(text), 'assistant');
+    }
+    document.getElementById('chatForm').addEventListener('submit', event => {
+      event.preventDefault();
+      sendChatMessage(chatInput.value);
+      chatInput.value = '';
+      chatInput.focus();
+    });
+    document.querySelectorAll('.chat-suggestions button').forEach(button => {
+      button.addEventListener('click', () => sendChatMessage(button.dataset.question));
+    });
+
+    function renderPapers(container, papers) {
+      container.replaceChildren();
+      papers.forEach(paper => {
+        const title = Array.isArray(paper.title) && paper.title[0] ? paper.title[0].trim() : 'Untitled research paper';
+        const authors = Array.isArray(paper.author)
+          ? paper.author.map(author => [author.given, author.family].filter(Boolean).join(' ')).filter(Boolean)
+          : [];
+        const year = paper.published && paper.published['date-parts'] && paper.published['date-parts'][0]
+          ? paper.published['date-parts'][0][0]
+          : '';
+        const journal = Array.isArray(paper['container-title']) ? paper['container-title'][0] : '';
+        const metadata = [authors.length ? authors.slice(0, 5).join(', ') + (authors.length > 5 ? ', et al.' : '') : '',
+          journal, year, paper.type ? paper.type.replace(/-/g, ' ') : ''].filter(Boolean).join(' · ');
+        const card = document.createElement('article');
+        card.className = 'paper-card';
+        const link = document.createElement('a');
+        link.className = 'paper-title';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = title;
+        const paperUrl = typeof paper.URL === 'string' ? paper.URL : '';
+        const doiUrl = typeof paper.DOI === 'string' ? `https://doi.org/${encodeURIComponent(paper.DOI)}` : '';
+        const destination = paperUrl || doiUrl;
+        if (destination) {
+          try {
+            const parsedUrl = new URL(destination);
+            if (parsedUrl.protocol === 'https:') link.href = parsedUrl.href;
+          } catch (error) {
+            console.warn('Skipping an invalid research paper link.', error);
+          }
+        }
+        const details = document.createElement('p');
+        details.className = 'paper-meta';
+        details.textContent = metadata || 'Publication details are not available.';
+        card.append(link, details);
+        if (Number.isFinite(paper['is-referenced-by-count'])) {
+          const citations = document.createElement('div');
+          citations.className = 'paper-citations';
+          citations.textContent = `${paper['is-referenced-by-count']} citations`;
+          card.appendChild(citations);
+        }
+        container.appendChild(card);
+      });
+    }
+
+    function showScholarFallback(status, query) {
+      status.replaceChildren();
+      status.append(document.createTextNode('Paper search is unavailable right now. Check your internet connection and try again, or '));
+      const link = document.createElement('a');
+      link.href = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'search Google Scholar';
+      status.append(link);
+      status.append(document.createTextNode('.'));
+    }
+
+    async function searchPapers(query, resultsId, options = {}) {
+      const term = query.trim();
+      const status = document.getElementById(resultsId === 'globalPaperResults' ? 'globalSearchMessage' : 'advancedSearchMessage');
+      const results = document.getElementById(resultsId);
+      if (!term && !options.author && !options.filters) {
+        status.textContent = 'Enter a paper, author, or topic to search.';
+        results.replaceChildren();
+        return;
+      }
+
+      if (activeSearchController) activeSearchController.abort();
+      const controller = new AbortController();
+      activeSearchController = controller;
+      const params = new URLSearchParams({
+        rows: '10',
+        select: 'DOI,title,author,published,container-title,URL,type,is-referenced-by-count'
+      });
+      if (term) params.set('query.bibliographic', term);
+      if (options.author) params.set('query.author', options.author);
+      const filters = options.filters ? options.filters.split(',').filter(Boolean) : [];
+      if (!options.allTypes && !filters.some(filter => filter.startsWith('type:'))) {
+        filters.push('type:journal-article');
+      }
+      if (filters.length) params.set('filter', filters.join(','));
+      if (options.sort === 'published') {
+        params.set('sort', 'published');
+        params.set('order', options.order);
+      }
+
+      results.replaceChildren();
+      status.textContent = 'Searching research papers…';
+      try {
+        const response = await fetch(`https://api.crossref.org/works?${params.toString()}`, {
+          signal: controller.signal,
+          headers: { Accept: 'application/json' }
+        });
+        if (!response.ok) throw new Error(`The research service responded with HTTP ${response.status}.`);
+        const data = await response.json();
+        const papers = data && data.message && Array.isArray(data.message.items) ? data.message.items : null;
+        if (!papers) throw new Error('The research service returned an unexpected response.');
+        if (controller.signal.aborted) return;
+        if (!papers.length) {
+          status.textContent = 'No papers matched those search terms. Try broader keywords or fewer filters.';
+          return;
+        }
+        renderPapers(results, papers);
+        const total = Number.isFinite(data.message['total-results']) ? data.message['total-results'] : papers.length;
+        status.textContent = `Found ${total} matching papers. Showing the first ${papers.length}.`;
+      } catch (error) {
+        if (error.name === 'AbortError') return;
+        console.error('Research paper search failed.', error);
+        showScholarFallback(status, term || options.author || 'research papers');
+      }
+    }
+
     function runSearch(query) {
       const term = query.trim();
       if (!term) {
@@ -1009,6 +1391,7 @@
       document.getElementById('globalQuery').value = term;
       window.location.hash = 'global-search';
       updateView();
+      searchPapers(term, 'globalPaperResults');
     }
     document.getElementById('researchSearch').addEventListener('submit', event => {
       event.preventDefault();
@@ -1025,10 +1408,7 @@
     });
     document.getElementById('globalSearchForm').addEventListener('submit', event => {
       event.preventDefault();
-      const query = document.getElementById('globalQuery').value.trim();
-      document.getElementById('globalSearchMessage').textContent = query
-        ? `Search submitted for “${query}”. Results can be connected to a research index.`
-        : 'Enter a paper, author, or topic to search.';
+      searchPapers(document.getElementById('globalQuery').value, 'globalPaperResults');
     });
     document.querySelectorAll('.search-chips button').forEach(button => {
       button.addEventListener('click', () => {
@@ -1050,19 +1430,41 @@
       event.preventDefault();
       const keywords = document.getElementById('advancedKeywords').value.trim();
       const author = document.getElementById('advancedAuthor').value.trim();
-      const filters = [
-        keywords && `keywords: “${keywords}”`,
-        author && `author: ${author}`,
-        fromYear.value && `from ${fromYear.value}`,
-        toYear.value && `to ${toYear.value}`,
-        document.getElementById('contentType').value !== 'All content' && document.getElementById('contentType').value
-      ].filter(Boolean);
-      document.getElementById('advancedSearchMessage').textContent = filters.length
-        ? `Filters applied (${filters.join(', ')}). Results can be connected to a research index.`
-        : 'Choose at least one filter to narrow your research.';
+      const message = document.getElementById('advancedSearchMessage');
+      if (!keywords && !author && !fromYear.value && !toYear.value &&
+          document.getElementById('contentType').value === 'All content') {
+        message.textContent = 'Choose at least one filter to narrow your research.';
+        document.getElementById('advancedPaperResults').replaceChildren();
+        return;
+      }
+      if (fromYear.value && toYear.value && Number(fromYear.value) > Number(toYear.value)) {
+        message.textContent = 'The “From year” must be earlier than or equal to the “To year”.';
+        document.getElementById('advancedPaperResults').replaceChildren();
+        return;
+      }
+      const filters = [];
+      if (fromYear.value) filters.push(`from-pub-date:${fromYear.value}-01-01`);
+      if (toYear.value) filters.push(`until-pub-date:${toYear.value}-12-31`);
+      const contentTypes = {
+        'Journal articles': 'type:journal-article',
+        'Conference papers': 'type:proceedings-article',
+        Books: 'type:book',
+        Theses: 'type:dissertation'
+      };
+      const contentType = document.getElementById('contentType').value;
+      if (contentTypes[contentType]) filters.push(contentTypes[contentType]);
+      const sortNewest = document.getElementById('sortBy').value;
+      searchPapers(keywords, 'advancedPaperResults', {
+        author,
+        filters: filters.join(','),
+        allTypes: contentType === 'All content',
+        sort: sortNewest === 'Relevance' ? '' : 'published',
+        order: sortNewest === 'Oldest first' ? 'asc' : 'desc'
+      });
     });
     document.getElementById('advancedSearchForm').addEventListener('reset', () => {
       document.getElementById('advancedSearchMessage').textContent = '';
+      document.getElementById('advancedPaperResults').replaceChildren();
     });
 
     function updateView() {
